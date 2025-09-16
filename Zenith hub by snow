@@ -2452,39 +2452,36 @@ local speedGrind = rebirthFarmFolder:AddSwitch("Fast Strength / pack", function(
 	end)
 end)
 
--- 🔧 Anti-Lag sempre ativo
-do
-    local lighting = game:GetService("Lighting")
+-- 🔧 Anti-Lag automático (corrigido)
+local playerGui = player:WaitForChild("PlayerGui")
+local lighting = game:GetService("Lighting")
 
-    -- Desativar partículas e luzes
-    for _, obj in pairs(workspace:GetDescendants()) do
-        if obj:IsA("ParticleEmitter") or obj:IsA("Trail") then
-            obj.Enabled = false
-        elseif obj:IsA("PointLight") or obj:IsA("SpotLight") or obj:IsA("SurfaceLight") then
-            obj.Enabled = false
-        end
-    end
-
-    -- Simplificar céu/iluminação
-    local darkSky = Instance.new("Sky")
-    darkSky.Name = "DarkSky"
-    darkSky.SkyboxBk = "rbxassetid://0"
-    darkSky.SkyboxDn = "rbxassetid://0"
-    darkSky.SkyboxFt = "rbxassetid://0"
-    darkSky.SkyboxLf = "rbxassetid://0"
-    darkSky.SkyboxRt = "rbxassetid://0"
-    darkSky.SkyboxUp = "rbxassetid://0"
-    darkSky.Parent = lighting
-
-    lighting.Brightness = 1
-    lighting.ClockTime = 12
-    lighting.OutdoorAmbient = Color3.new(0.5, 0.5, 0.5)
-    lighting.Ambient = Color3.new(0.5, 0.5, 0.5)
-    lighting.FogEnd = 1000
-    lighting.FogStart = 0
-
-    print("✅ Anti-Lag aplicado automaticamente.")
+-- Remove apenas partículas e luzes
+for _, obj in pairs(workspace:GetDescendants()) do
+	if obj:IsA("ParticleEmitter") or obj:IsA("Trail") then
+		obj.Enabled = false
+	elseif obj:IsA("PointLight") or obj:IsA("SpotLight") or obj:IsA("SurfaceLight") then
+		obj.Enabled = false
+	end
 end
+
+-- Simplificar céu/iluminação
+local darkSky = Instance.new("Sky")
+darkSky.Name = "DarkSky"
+darkSky.SkyboxBk = "rbxassetid://0"
+darkSky.SkyboxDn = "rbxassetid://0"
+darkSky.SkyboxFt = "rbxassetid://0"
+darkSky.SkyboxLf = "rbxassetid://0"
+darkSky.SkyboxRt = "rbxassetid://0"
+darkSky.SkyboxUp = "rbxassetid://0"
+darkSky.Parent = lighting
+
+lighting.Brightness = 1
+lighting.ClockTime = 12
+lighting.OutdoorAmbient = Color3.new(0.5,0.5,0.5)
+lighting.Ambient = Color3.new(0.5,0.5,0.5)
+lighting.FogEnd = 1000
+lighting.FogStart = 0
 
 -- BOTÕES EXTRAS PARA PETS
 rebirthFarmFolder:AddButton("Equipar Samurai", function()
