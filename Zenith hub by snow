@@ -2452,20 +2452,28 @@ local speedGrind = rebirthFarmFolder:AddSwitch("Fast Strength / pack", function(
 	end)
 end)
 
--- 🔧 Anti-Lag automático (corrigido)
+-- 🛠️ Anti Lag (Credits itsbleedingyz)
+local player = game:GetService("Players").LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 local lighting = game:GetService("Lighting")
 
--- Remove apenas partículas e luzes
+-- ⚠️ Se realmente quiser limpar GUIs (cuidado, pode apagar menus também!)
+-- for _, gui in pairs(playerGui:GetChildren()) do
+--     if gui:IsA("ScreenGui") then
+--         gui:Destroy()
+--     end
+-- end
+
+-- Remove partículas e luzes
 for _, obj in pairs(workspace:GetDescendants()) do
-	if obj:IsA("ParticleEmitter") or obj:IsA("Trail") then
-		obj.Enabled = false
-	elseif obj:IsA("PointLight") or obj:IsA("SpotLight") or obj:IsA("SurfaceLight") then
-		obj.Enabled = false
-	end
+    if obj:IsA("ParticleEmitter") or obj:IsA("Trail") then
+        obj.Enabled = false
+    elseif obj:IsA("PointLight") or obj:IsA("SpotLight") or obj:IsA("SurfaceLight") then
+        obj.Enabled = false
+    end
 end
 
--- Simplificar céu/iluminação
+-- Criar céu simples
 local darkSky = Instance.new("Sky")
 darkSky.Name = "DarkSky"
 darkSky.SkyboxBk = "rbxassetid://0"
@@ -2476,12 +2484,13 @@ darkSky.SkyboxRt = "rbxassetid://0"
 darkSky.SkyboxUp = "rbxassetid://0"
 darkSky.Parent = lighting
 
-lighting.Brightness = 1
-lighting.ClockTime = 12
-lighting.OutdoorAmbient = Color3.new(0.5,0.5,0.5)
-lighting.Ambient = Color3.new(0.5,0.5,0.5)
-lighting.FogEnd = 1000
-lighting.FogStart = 0
+-- Ajustar iluminação para performance
+lighting.Brightness = 0
+lighting.ClockTime = 0
+lighting.OutdoorAmbient = Color3.new(0, 0, 0)
+lighting.Ambient = Color3.new(0, 0, 0)
+lighting.FogColor = Color3.new(0, 0, 0)
+lighting.FogEnd = 100
 
 -- BOTÕES EXTRAS PARA PETS
 rebirthFarmFolder:AddButton("Equipar Samurai", function()
