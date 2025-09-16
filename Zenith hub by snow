@@ -2452,30 +2452,17 @@ local speedGrind = rebirthFarmFolder:AddSwitch("Fast Strength / pack", function(
 	end)
 end)
 
--- Rebirth Farm Folder
-local rebirthFarmFolder = miscTab:AddFolder("Farm pack")
+-- BOTÕES EXTRAS PARA PETS
+rebirthFarmFolder:AddButton("Equipar Samurai", function()
+	equipUniquePet("Swift Samurai")
+end)
 
-local function unequipAllPets()
-	local petsFolder = player.petsFolder
-	for _, folder in pairs(petsFolder:GetChildren()) do
-		if folder:IsA("Folder") then
-			for _, pet in pairs(folder:GetChildren()) do
-				ReplicatedStorage.rEvents.equipPetEvent:FireServer("unequipPet", pet)
-			end
-		end
-	end
-	task.wait(0.1)
-end
-
-local function equipUniquePet(petName)
+rebirthFarmFolder:AddButton("Tirar Pets", function()
 	unequipAllPets()
-	task.wait(0.01)
-	for _, pet in pairs(player.petsFolder.Unique:GetChildren()) do
-		if pet.Name == petName then
-			ReplicatedStorage.rEvents.equipPetEvent:FireServer("equipPet", pet)
-		end
-	end
-end
+end)
+
+-- anti lag Farm Folder
+local anti lagFarmFolder = miscTab:AddFolder("Anti lag")
 
 -- 🛠️ Função Anti Lag (Céu Preto)
 local function antiLag()
@@ -2529,16 +2516,6 @@ rebirthFarmFolder:AddButton("Ativar Anti Lag", function()
         Duration = 3
     })
 end)
-
--- BOTÕES EXTRAS PARA PETS
-rebirthFarmFolder:AddButton("Equipar Samurai", function()
-	equipUniquePet("Swift Samurai")
-end)
-
-rebirthFarmFolder:AddButton("Tirar Pets", function()
-	unequipAllPets()
-end)
-
 
 -- 🥚 Egg Auto Farm Folder 
 local Players = game:GetService("Players")
