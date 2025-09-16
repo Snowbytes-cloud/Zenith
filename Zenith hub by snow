@@ -2452,53 +2452,39 @@ local speedGrind = rebirthFarmFolder:AddSwitch("Fast Strength / pack", function(
 	end)
 end)
 
--- 🔧 Anti-Lag integrado no menu
-rebirthFarmFolder:AddSwitch("Anti Lag / pack", function(bool)
+-- 🔧 Anti-Lag sempre ativo
+do
     local lighting = game:GetService("Lighting")
 
-    if bool then
-        -- Desativar partículas e luzes
-        for _, obj in pairs(workspace:GetDescendants()) do
-            if obj:IsA("ParticleEmitter") or obj:IsA("Trail") then
-                obj.Enabled = false
-            elseif obj:IsA("PointLight") or obj:IsA("SpotLight") or obj:IsA("SurfaceLight") then
-                obj.Enabled = false
-            end
+    -- Desativar partículas e luzes
+    for _, obj in pairs(workspace:GetDescendants()) do
+        if obj:IsA("ParticleEmitter") or obj:IsA("Trail") then
+            obj.Enabled = false
+        elseif obj:IsA("PointLight") or obj:IsA("SpotLight") or obj:IsA("SurfaceLight") then
+            obj.Enabled = false
         end
-
-        -- Simplificar céu/iluminação
-        local darkSky = Instance.new("Sky")
-        darkSky.Name = "DarkSky"
-        darkSky.SkyboxBk = "rbxassetid://0"
-        darkSky.SkyboxDn = "rbxassetid://0"
-        darkSky.SkyboxFt = "rbxassetid://0"
-        darkSky.SkyboxLf = "rbxassetid://0"
-        darkSky.SkyboxRt = "rbxassetid://0"
-        darkSky.SkyboxUp = "rbxassetid://0"
-        darkSky.Parent = lighting
-
-        lighting.Brightness = 1
-        lighting.ClockTime = 12
-        lighting.OutdoorAmbient = Color3.new(0.5, 0.5, 0.5)
-        lighting.Ambient = Color3.new(0.5, 0.5, 0.5)
-        lighting.FogEnd = 1000
-        lighting.FogStart = 0
-        print("✅ Anti-Lag ativado.")
-    else
-        -- Restaurar iluminação normal
-        if lighting:FindFirstChild("DarkSky") then
-            lighting.DarkSky:Destroy()
-        end
-
-        lighting.Brightness = 2
-        lighting.ClockTime = 14
-        lighting.OutdoorAmbient = Color3.new(1, 1, 1)
-        lighting.Ambient = Color3.new(1, 1, 1)
-        lighting.FogEnd = 100000
-        lighting.FogStart = 0
-        print("❌ Anti-Lag desativado.")
     end
-end)
+
+    -- Simplificar céu/iluminação
+    local darkSky = Instance.new("Sky")
+    darkSky.Name = "DarkSky"
+    darkSky.SkyboxBk = "rbxassetid://0"
+    darkSky.SkyboxDn = "rbxassetid://0"
+    darkSky.SkyboxFt = "rbxassetid://0"
+    darkSky.SkyboxLf = "rbxassetid://0"
+    darkSky.SkyboxRt = "rbxassetid://0"
+    darkSky.SkyboxUp = "rbxassetid://0"
+    darkSky.Parent = lighting
+
+    lighting.Brightness = 1
+    lighting.ClockTime = 12
+    lighting.OutdoorAmbient = Color3.new(0.5, 0.5, 0.5)
+    lighting.Ambient = Color3.new(0.5, 0.5, 0.5)
+    lighting.FogEnd = 1000
+    lighting.FogStart = 0
+
+    print("✅ Anti-Lag aplicado automaticamente.")
+end
 
 -- BOTÕES EXTRAS PARA PETS
 rebirthFarmFolder:AddButton("Equipar Samurai", function()
