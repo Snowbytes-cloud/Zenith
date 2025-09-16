@@ -2452,49 +2452,77 @@ local speedGrind = rebirthFarmFolder:AddSwitch("Fast Strength / pack", function(
 	end)
 end)
 
--- 🛠️ Anti Lag (Céu Preto)
-local function toggleAntiLag()
-    local lighting = game:GetService("Lighting")
+-- Rebirth Farm Folder
+local rebirthFarmFolder = miscTab:AddFolder("Farm pack")
 
-    -- Remove partículas e luzes
-    for _, obj in pairs(workspace:GetDescendants()) do
-        if obj:IsA("ParticleEmitter") or obj:IsA("Trail") then
-            obj.Enabled = false
-        elseif obj:IsA("PointLight") or obj:IsA("SpotLight") or obj:IsA("SurfaceLight") then
-            obj.Enabled = false
-        end
-    end
-
-    -- Limpa qualquer sky existente
-    for _, sky in pairs(lighting:GetChildren()) do
-        if sky:IsA("Sky") then
-            sky:Destroy()
-        end
-    end
-
-    -- Criar céu totalmente preto
-    local blackSky = Instance.new("Sky")
-    blackSky.Name = "BlackSky"
-    blackSky.SkyboxBk = "rbxassetid://0"
-    blackSky.SkyboxDn = "rbxassetid://0"
-    blackSky.SkyboxFt = "rbxassetid://0"
-    blackSky.SkyboxLf = "rbxassetid://0"
-    blackSky.SkyboxRt = "rbxassetid://0"
-    blackSky.SkyboxUp = "rbxassetid://0"
-    blackSky.Parent = lighting
-
-    -- Deixar ambiente escuro
-    lighting.Brightness = 0
-    lighting.ClockTime = 0
-    lighting.OutdoorAmbient = Color3.new(0, 0, 0)
-    lighting.Ambient = Color3.new(0, 0, 0)
-    lighting.FogColor = Color3.new(0, 0, 0)
-    lighting.FogEnd = 50 -- mais fechado = mais escuro
+local function unequipAllPets()
+	local petsFolder = player.petsFolder
+	for _, folder in pairs(petsFolder:GetChildren()) do
+		if folder:IsA("Folder") then
+			for _, pet in pairs(folder:GetChildren()) do
+				ReplicatedStorage.rEvents.equipPetEvent:FireServer("unequipPet", pet)
+			end
+		end
+	end
+	task.wait(0.1)
 end
 
--- 🔘 Botão dentro do Farm pack
-rebirthFarmFolder:AddButton("Ativar Anti Lag (Céu Preto)", function()
-    toggleAntiLag()
+local function equipUniquePet(petName)
+	unequipAllPets()
+	task.wait(0.01)
+	for _, pet in pairs(player.petsFolder.Unique:GetChildren()) do
+		if pet.Name == petName then
+			ReplicatedStorage.rEvents.equipPetEvent:FireServer("equipPet", pet)
+		end
+	end
+end
+
+-- 🛠️ Função Anti Lag (Céu Preto)
+local function antiLag()
+    local player = game:GetService("Players").LocalPlayer
+    local playerGui = player:WaitForChild("PlayerGui")
+    local lighting = game:GetService("Lighting")
+
+    -- ⚠️ Destroi GUIs (pode remover menus também, cuidado!)
+    for _, gui in pairs(playerGui:GetChildren()) do 
+        if gui:IsA("ScreenGui") then 
+            gui:Destroy() 
+        end 
+    end
+
+    -- Remove partículas e luzes
+    for _, obj in pairs(workspace:GetDescendants()) do 
+        if obj:IsA("ParticleEmitter") 
+        or obj:IsA("PointLight") 
+        or obj:IsA("SpotLight") 
+        or obj:IsA("SurfaceLight") then 
+            obj:Destroy() 
+        end 
+    end
+
+    -- Cria céu preto
+    local darkSky = Instance.new("Sky")
+    darkSky.Name = "DarkSky"
+    darkSky.SkyboxBk = "rbxassetid://0"
+    darkSky.SkyboxDn = "rbxassetid://0"
+    darkSky.SkyboxFt = "rbxassetid://0"
+    darkSky.SkyboxLf = "rbxassetid://0"
+    darkSky.SkyboxRt = "rbxassetid://0"
+    darkSky.SkyboxUp = "rbxassetid://0"
+    darkSky.Parent = lighting
+
+    -- Config iluminação
+    lighting.Brightness = 0
+    lighting.ClockTime = 0
+    lighting.OutdoorAmbient = Color3.new(0,0,0)
+    lighting.Ambient = Color3.new(0,0,0)
+    lighting.FogColor = Color3.new(0,0,0)
+    lighting.FogEnd = 100
+end
+
+-- 🔘 Botão para ativar Anti Lag
+rebirthFarmFolder:AddButton("Ativar Anti Lag", function()
+    antiLag()
     StarterGui:SetCore("SendNotification", {
         Title = "Anti Lag",
         Text = "Céu preto e otimizações aplicadas!",
