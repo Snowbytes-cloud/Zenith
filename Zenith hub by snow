@@ -2251,6 +2251,15 @@ timeDropdown:Add("Midnight")
 -- Rebirth Farm Folder
 local rebirthFarmFolder = miscTab:AddFolder("Farm pack")
 
+-- BOTÕES EXTRAS PARA PETS
+rebirthFarmFolder:AddButton("Equipar Samurai", function()
+	equipUniquePet("Swift Samurai")
+end)
+
+rebirthFarmFolder:AddButton("Tirar Pets", function()
+	unequipAllPets()
+end)
+
 local function unequipAllPets()
 	local petsFolder = player.petsFolder
 	for _, folder in pairs(petsFolder:GetChildren()) do
@@ -2450,15 +2459,6 @@ local speedGrind = rebirthFarmFolder:AddSwitch("Fast Strength / pack", function(
 			task.wait(1)
 		end
 	end)
-end)
-
--- BOTÕES EXTRAS PARA PETS
-rebirthFarmFolder:AddButton("Equipar Samurai", function()
-	equipUniquePet("Swift Samurai")
-end)
-
-rebirthFarmFolder:AddButton("Tirar Pets", function()
-	unequipAllPets()
 end)
 
 -- anti lag Farm Folder
