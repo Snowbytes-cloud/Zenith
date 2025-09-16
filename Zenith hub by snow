@@ -2452,22 +2452,8 @@ local speedGrind = rebirthFarmFolder:AddSwitch("Fast Strength / pack", function(
 	end)
 end)
 
--- BOTÕES EXTRAS PARA PETS
-rebirthFarmFolder:AddButton("Equipar Samurai", function()
-	equipUniquePet("Swift Samurai")
-end)
-
-rebirthFarmFolder:AddButton("Tirar Pets", function()
-	unequipAllPets()
-end)
-
-
-
--- anti lag Farm Folder
-local anti lagFarmFolder = miscTab:AddFolder("Anti lag")
-
--- 🛠️ Função Anti Lag (Céu Preto)
-local function antiLag()
+-- 🛠️ Função Anti Lag
+local function AntiLag()
     local player = game:GetService("Players").LocalPlayer
     local playerGui = player:WaitForChild("PlayerGui")
     local lighting = game:GetService("Lighting")
@@ -2510,14 +2496,23 @@ local function antiLag()
 end
 
 -- 🔘 Botão para ativar Anti Lag
-rebirthFarmFolder:AddButton("Ativar Anti Lag", function()
-    antiLag()
+rebirthFarmFolder:AddButton("Anti Lag", function()
+    AntiLag()
     StarterGui:SetCore("SendNotification", {
         Title = "Anti Lag",
         Text = "Céu preto e otimizações aplicadas!",
         Duration = 3
     })
 end)
+-- BOTÕES EXTRAS PARA PETS
+rebirthFarmFolder:AddButton("Equipar Samurai", function()
+	equipUniquePet("Swift Samurai")
+end)
+
+rebirthFarmFolder:AddButton("Tirar Pets", function()
+	unequipAllPets()
+end)
+
 
 -- 🥚 Egg Auto Farm Folder 
 local Players = game:GetService("Players")
