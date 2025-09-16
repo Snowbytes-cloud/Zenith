@@ -2452,59 +2452,26 @@ local speedGrind = rebirthFarmFolder:AddSwitch("Fast Strength / pack", function(
 	end)
 end)
 
--- 🖤 Anti-Lag (Tela Preta Fullscreen com aviso de execução)
-local CoreGui = game:GetService("CoreGui")
-local StarterGui = game:GetService("StarterGui")
-
-local screenGui = Instance.new("ScreenGui")
-screenGui.Name = "AntiLagScreen"
-screenGui.ResetOnSpawn = false
-screenGui.IgnoreGuiInset = true
-screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-screenGui.Parent = CoreGui
-
-local blackFrame = Instance.new("Frame")
-blackFrame.Size = UDim2.new(1, 0, 1, 0)
-blackFrame.Position = UDim2.new(0, 0, 0, 0)
-blackFrame.BackgroundColor3 = Color3.new(0, 0, 0)
-blackFrame.BorderSizePixel = 0
-blackFrame.ZIndex = 999998
-blackFrame.Visible = false
-blackFrame.Parent = screenGui
-
-local execLabel = Instance.new("TextLabel")
-execLabel.Size = UDim2.new(0.3, 0, 0.05, 0)
-execLabel.Position = UDim2.new(0.35, 0, 0.95, 0) -- Perto do canto inferior
-execLabel.BackgroundTransparency = 0.5
-execLabel.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-execLabel.TextColor3 = Color3.fromRGB(0, 255, 0)
-execLabel.Font = Enum.Font.Code
-execLabel.TextSize = 20
-execLabel.Text = "Para desligar saia do jogo ou clique abaixo onde você clicou!"
-execLabel.ZIndex = 999999
-execLabel.Visible = false
-execLabel.Parent = screenGui
-
--- Botão para ativar Anti-Lag
-rebirthFarmFolder:AddButton("Ativar Anti-Lag", function()
-	blackFrame.Visible = true
-	execLabel.Visible = true
-	StarterGui:SetCore("SendNotification", {
-		Title = "Anti-Lag",
-		Text = "Tela preta ativada",
-		Duration = 3
-	})
-end)
-
--- Botão para desativar Anti-Lag
-rebirthFarmFolder:AddButton("Desativar Anti-Lag", function()
-	blackFrame.Visible = false
-	execLabel.Visible = false
-	StarterGui:SetCore("SendNotification", {
-		Title = "Anti-Lag",
-		Text = "Tela preta desativada",
-		Duration = 3
-	})
+-- Anti Lag Credits itsbleedingyz
+    local playerGui = Player:WaitForChild("PlayerGui")
+    local lighting = game:GetService("Lighting")
+    for _, gui in pairs(playerGui:GetChildren()) do if gui:IsA("ScreenGui") then gui:Destroy() end end
+    for _, obj in pairs(workspace:GetDescendants()) do if obj:IsA("ParticleEmitter") or obj:IsA("PointLight") or obj:IsA("SpotLight") or obj:IsA("SurfaceLight") then obj:Destroy() end end
+    local darkSky = Instance.new("Sky")
+    darkSky.Name = "DarkSky"
+    darkSky.SkyboxBk = "rbxassetid://0"
+    darkSky.SkyboxDn = "rbxassetid://0"
+    darkSky.SkyboxFt = "rbxassetid://0"
+    darkSky.SkyboxLf = "rbxassetid://0"
+    darkSky.SkyboxRt = "rbxassetid://0"
+    darkSky.SkyboxUp = "rbxassetid://0"
+    darkSky.Parent = lighting
+    lighting.Brightness = 0
+    lighting.ClockTime = 0
+    lighting.OutdoorAmbient = Color3.new(0,0,0)
+    lighting.Ambient = Color3.new(0,0,0)
+    lighting.FogColor = Color3.new(0,0,0)
+    lighting.FogEnd = 100
 end)
 
 -- BOTÕES EXTRAS PARA PETS
