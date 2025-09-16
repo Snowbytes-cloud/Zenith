@@ -2452,45 +2452,49 @@ local speedGrind = rebirthFarmFolder:AddSwitch("Fast Strength / pack", function(
 	end)
 end)
 
--- 🛠️ Anti Lag (Credits itsbleedingyz)
-local player = game:GetService("Players").LocalPlayer
-local playerGui = player:WaitForChild("PlayerGui")
-local lighting = game:GetService("Lighting")
+-- 🛠️ Anti Lag (toggle dentro do Farm Pack)
+local function toggleAntiLag()
+    local player = game:GetService("Players").LocalPlayer
+    local lighting = game:GetService("Lighting")
 
--- ⚠️ Se realmente quiser limpar GUIs (cuidado, pode apagar menus também!)
--- for _, gui in pairs(playerGui:GetChildren()) do
---     if gui:IsA("ScreenGui") then
---         gui:Destroy()
---     end
--- end
-
--- Remove partículas e luzes
-for _, obj in pairs(workspace:GetDescendants()) do
-    if obj:IsA("ParticleEmitter") or obj:IsA("Trail") then
-        obj.Enabled = false
-    elseif obj:IsA("PointLight") or obj:IsA("SpotLight") or obj:IsA("SurfaceLight") then
-        obj.Enabled = false
+    -- Remove partículas e luzes
+    for _, obj in pairs(workspace:GetDescendants()) do
+        if obj:IsA("ParticleEmitter") or obj:IsA("Trail") then
+            obj.Enabled = false
+        elseif obj:IsA("PointLight") or obj:IsA("SpotLight") or obj:IsA("SurfaceLight") then
+            obj.Enabled = false
+        end
     end
+
+    -- Criar céu simples
+    local darkSky = Instance.new("Sky")
+    darkSky.Name = "DarkSky"
+    darkSky.SkyboxBk = "rbxassetid://0"
+    darkSky.SkyboxDn = "rbxassetid://0"
+    darkSky.SkyboxFt = "rbxassetid://0"
+    darkSky.SkyboxLf = "rbxassetid://0"
+    darkSky.SkyboxRt = "rbxassetid://0"
+    darkSky.SkyboxUp = "rbxassetid://0"
+    darkSky.Parent = lighting
+
+    -- Ajustar iluminação para performance
+    lighting.Brightness = 0
+    lighting.ClockTime = 0
+    lighting.OutdoorAmbient = Color3.new(0, 0, 0)
+    lighting.Ambient = Color3.new(0, 0, 0)
+    lighting.FogColor = Color3.new(0, 0, 0)
+    lighting.FogEnd = 100
 end
 
--- Criar céu simples
-local darkSky = Instance.new("Sky")
-darkSky.Name = "DarkSky"
-darkSky.SkyboxBk = "rbxassetid://0"
-darkSky.SkyboxDn = "rbxassetid://0"
-darkSky.SkyboxFt = "rbxassetid://0"
-darkSky.SkyboxLf = "rbxassetid://0"
-darkSky.SkyboxRt = "rbxassetid://0"
-darkSky.SkyboxUp = "rbxassetid://0"
-darkSky.Parent = lighting
-
--- Ajustar iluminação para performance
-lighting.Brightness = 0
-lighting.ClockTime = 0
-lighting.OutdoorAmbient = Color3.new(0, 0, 0)
-lighting.Ambient = Color3.new(0, 0, 0)
-lighting.FogColor = Color3.new(0, 0, 0)
-lighting.FogEnd = 100
+-- 🔘 Botão dentro do Farm pack
+rebirthFarmFolder:AddButton("Ativar Anti Lag", function()
+    toggleAntiLag()
+    StarterGui:SetCore("SendNotification", {
+        Title = "Anti Lag",
+        Text = "Configurações de performance aplicadas!",
+        Duration = 3
+    })
+end)
 
 -- BOTÕES EXTRAS PARA PETS
 rebirthFarmFolder:AddButton("Equipar Samurai", function()
